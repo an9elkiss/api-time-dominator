@@ -5,25 +5,20 @@
  */
 package com.an9elkiss.api.timedo.api;
 
-import org.threeten.bp.OffsetDateTime;
-
-import com.an9elkiss.api.timedo.model.TimeEntry;
-
-import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
+import org.threeten.bp.OffsetDateTime;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
+import com.an9elkiss.api.timedo.command.TimeEntry;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-28T09:59:07.066Z")
 
 @Api(value = "time-entry", description = "the time-entry API")
@@ -48,14 +43,16 @@ public interface TimeEntryApi {
     ResponseEntity<Void> deleteTimeEntry(@ApiParam(value = "Time entry id to delete",required=true) @PathVariable("id") Long id);
 
 
-    @ApiOperation(value = "Finds time entry by id", nickname = "findPetById", notes = "Finds time entry by id", response = TimeEntry.class, tags={ "time-entry", })
+	@ApiOperation(value = "Finds time entry by id", nickname = "findTimeEntryById", notes = "Finds time entry by id", response = TimeEntry.class, tags = {
+			"time-entry", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = TimeEntry.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied") })
     @RequestMapping(value = "/time-entry/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<TimeEntry> findPetById(@ApiParam(value = "ID of time entry that needs to be fetched",required=true) @PathVariable("id") Long id);
+	ResponseEntity<TimeEntry> findTimeEntryById(
+			@ApiParam(value = "ID of time entry that needs to be fetched", required = true) @PathVariable("id") Long id);
 
 
     @ApiOperation(value = "Update an existing time entry", nickname = "updateTimeEntry", notes = "", tags={ "time-entry", })

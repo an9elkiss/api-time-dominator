@@ -1,161 +1,101 @@
 package com.an9elkiss.api.timedo.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.io.Serializable;
+import java.util.Date;
 
-/**
- * TimeEntry
- */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-28T09:59:07.066Z")
+public class TimeEntry implements Serializable{
 
-public class TimeEntry   {
-  @JsonProperty("date")
-  private OffsetDateTime date = null;
+	private static final long serialVersionUID = -862181161783358473L;
 
-  @JsonProperty("type")
-  private String type = null;
+	private Integer id;
+	private Date date;
+	private String type;
+	private String comment;
+	private Integer duration;
+	private Integer status;
+	private String createBy;
+	private Date createTime;
+	private String updateBy;
+	private Date updateTime;
 
-  @JsonProperty("comment")
-  private String comment = null;
+	public Date getDate() {
+		return date;
+	}
 
-  @JsonProperty("duration")
-  private Long duration = null;
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
-  public TimeEntry date(OffsetDateTime date) {
-    this.date = date;
-    return this;
-  }
+	public String getType() {
+		return type;
+	}
 
-   /**
-   * Get date
-   * @return date
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+	public void setType(String type) {
+		this.type = type;
+	}
 
-  @Valid
+	public String getComment() {
+		return comment;
+	}
 
-  public OffsetDateTime getDate() {
-    return date;
-  }
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
-  public void setDate(OffsetDateTime date) {
-    this.date = date;
-  }
+	public Integer getDuration() {
+		return duration;
+	}
 
-  public TimeEntry type(String type) {
-    this.type = type;
-    return this;
-  }
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
 
-   /**
-   * Get type
-   * @return type
-  **/
-  @ApiModelProperty(example = "it-learning", required = true, value = "")
-  @NotNull
+	public Integer getId() {
+		return id;
+	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-  public String getType() {
-    return type;
-  }
+	public Integer getStatus() {
+		return status;
+	}
 
-  public void setType(String type) {
-    this.type = type;
-  }
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-  public TimeEntry comment(String comment) {
-    this.comment = comment;
-    return this;
-  }
+	public String getCreateBy() {
+		return createBy;
+	}
 
-   /**
-   * Get comment
-   * @return comment
-  **/
-  @ApiModelProperty(example = "learn AI", value = "")
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
 
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-  public String getComment() {
-    return comment;
-  }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-  public void setComment(String comment) {
-    this.comment = comment;
-  }
+	public String getUpdateBy() {
+		return updateBy;
+	}
 
-  public TimeEntry duration(Long duration) {
-    this.duration = duration;
-    return this;
-  }
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+	}
 
-   /**
-   * Get duration
-   * @return duration
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+	public Date getUpdateTime() {
+		return updateTime;
+	}
 
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 
-  public Long getDuration() {
-    return duration;
-  }
-
-  public void setDuration(Long duration) {
-    this.duration = duration;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    TimeEntry timeEntry = (TimeEntry) o;
-    return Objects.equals(this.date, timeEntry.date) &&
-        Objects.equals(this.type, timeEntry.type) &&
-        Objects.equals(this.comment, timeEntry.comment) &&
-        Objects.equals(this.duration, timeEntry.duration);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(date, type, comment, duration);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class TimeEntry {\n");
-    
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
-    sb.append("    duration: ").append(toIndentedString(duration)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
-

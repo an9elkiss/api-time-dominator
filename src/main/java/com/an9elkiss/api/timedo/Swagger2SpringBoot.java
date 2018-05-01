@@ -1,5 +1,6 @@
 package com.an9elkiss.api.timedo;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +11,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "io.swagger", "io.swagger.api" })
+@ComponentScan(basePackages = { "com.an9elkiss.api.timedo.api" })
+@MapperScan("com.an9elkiss.api.timedo.dao")
 public class Swagger2SpringBoot implements CommandLineRunner {
 
     @Override
