@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.threeten.bp.OffsetDateTime;
 
-import com.an9elkiss.api.timedo.command.TimeEntry;
+import com.an9elkiss.api.timedo.command.TimeEntryCmd;
 import com.an9elkiss.api.timedo.dao.TimeEntryDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -55,7 +55,7 @@ public class TimeEntryApiController implements TimeEntryApi {
 	private Logger logger = LoggerFactory.getLogger(TimeEntryApiController.class);
 
     @Override
-	public ResponseEntity<TimeEntry> findTimeEntryById(@ApiParam(value = "ID of time entry that needs to be fetched",required=true) @PathVariable("id") Long id) {
+	public ResponseEntity<TimeEntryCmd> findTimeEntryById(@ApiParam(value = "ID of time entry that needs to be fetched",required=true) @PathVariable("id") Long id) {
 
 		logger.info("aaaaaaaaaaaaaaaaaaaaaaaaa");
 		logger.debug("bbbbbbbbbbbbbbbbbbbbbbbbbb");
@@ -72,10 +72,10 @@ public class TimeEntryApiController implements TimeEntryApi {
 			System.out.println("==================" + x);
             	
             	
-                return new ResponseEntity<TimeEntry>(objectMapper.readValue("{  \"date\" : \"2000-01-23T04:56:07.000+00:00\",  \"duration\" : 0,  \"comment\" : \"learn AI\",  \"type\" : \"it-learning\"}", TimeEntry.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<TimeEntryCmd>(objectMapper.readValue("{  \"date\" : \"2000-01-23T04:56:07.000+00:00\",  \"duration\" : 0,  \"comment\" : \"learn AI\",  \"type\" : \"it-learning\"}", TimeEntryCmd.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<TimeEntry>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<TimeEntryCmd>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
     }

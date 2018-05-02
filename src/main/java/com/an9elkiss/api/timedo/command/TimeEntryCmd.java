@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-28T09:59:07.066Z")
 
-public class TimeEntry   {
+public class TimeEntryCmd   {
   @JsonProperty("date")
   private OffsetDateTime date = null;
 
@@ -29,7 +29,7 @@ public class TimeEntry   {
   @JsonProperty("duration")
   private Long duration = null;
 
-  public TimeEntry date(OffsetDateTime date) {
+  public TimeEntryCmd date(OffsetDateTime date) {
     this.date = date;
     return this;
   }
@@ -51,7 +51,7 @@ public class TimeEntry   {
     this.date = date;
   }
 
-  public TimeEntry type(String type) {
+  public TimeEntryCmd type(String type) {
     this.type = type;
     return this;
   }
@@ -72,7 +72,7 @@ public class TimeEntry   {
     this.type = type;
   }
 
-  public TimeEntry comment(String comment) {
+  public TimeEntryCmd comment(String comment) {
     this.comment = comment;
     return this;
   }
@@ -92,7 +92,7 @@ public class TimeEntry   {
     this.comment = comment;
   }
 
-  public TimeEntry duration(Long duration) {
+  public TimeEntryCmd duration(Long duration) {
     this.duration = duration;
     return this;
   }
@@ -122,7 +122,7 @@ public class TimeEntry   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TimeEntry timeEntry = (TimeEntry) o;
+    TimeEntryCmd timeEntry = (TimeEntryCmd) o;
     return Objects.equals(this.date, timeEntry.date) &&
         Objects.equals(this.type, timeEntry.type) &&
         Objects.equals(this.comment, timeEntry.comment) &&

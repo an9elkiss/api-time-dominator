@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.threeten.bp.OffsetDateTime;
 
-import com.an9elkiss.api.timedo.command.TimeEntry;
+import com.an9elkiss.api.timedo.command.TimeEntryCmd;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,15 +43,15 @@ public interface TimeEntryApi {
     ResponseEntity<Void> deleteTimeEntry(@ApiParam(value = "Time entry id to delete",required=true) @PathVariable("id") Long id);
 
 
-	@ApiOperation(value = "Finds time entry by id", nickname = "findTimeEntryById", notes = "Finds time entry by id", response = TimeEntry.class, tags = {
+	@ApiOperation(value = "Finds time entry by id", nickname = "findTimeEntryById", notes = "Finds time entry by id", response = TimeEntryCmd.class, tags = {
 			"time-entry", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = TimeEntry.class),
+        @ApiResponse(code = 200, message = "successful operation", response = TimeEntryCmd.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied") })
     @RequestMapping(value = "/time-entry/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-	ResponseEntity<TimeEntry> findTimeEntryById(
+	ResponseEntity<TimeEntryCmd> findTimeEntryById(
 			@ApiParam(value = "ID of time entry that needs to be fetched", required = true) @PathVariable("id") Long id);
 
 
