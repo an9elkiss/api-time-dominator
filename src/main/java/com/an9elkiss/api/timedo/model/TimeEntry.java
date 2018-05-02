@@ -9,7 +9,7 @@ public class TimeEntry implements Serializable{
 
 	private Integer id;
 	private Date date;
-	private String type;
+	private Integer typeId;
 	private String comment;
 	private Integer duration;
 	private Integer status;
@@ -24,14 +24,6 @@ public class TimeEntry implements Serializable{
 
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public String getComment() {
@@ -96,6 +88,14 @@ public class TimeEntry implements Serializable{
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public Integer getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
 	}
 
 }

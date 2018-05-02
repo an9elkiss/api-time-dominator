@@ -3,9 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.an9elkiss.api.timedo.dao。TimeEntryDao">
+<mapper namespace="com.an9elkiss.api.timedo.dao.TimeEntryDao">
 
-	<insert id="save" parameterType="com.an9elkiss.api.timedo.model.TimeEntry" useGeneratedKeys="true"
+	<insert id="save" parameterType="TimeEntry" useGeneratedKeys="true"
 		keyProperty="id">
 		insert into t_time_entry
 		(date, type_id, comment, duration, status, create_by, update_by)

@@ -52,9 +52,15 @@ public class TimeEntryApiController implements TimeEntryApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+	private Logger logger = LoggerFactory.getLogger(TimeEntryApiController.class);
+
     @Override
 	public ResponseEntity<TimeEntry> findTimeEntryById(@ApiParam(value = "ID of time entry that needs to be fetched",required=true) @PathVariable("id") Long id) {
-            try {
+
+		logger.info("aaaaaaaaaaaaaaaaaaaaaaaaa");
+		logger.debug("bbbbbbbbbbbbbbbbbbbbbbbbbb");
+
+		try {
             	com.an9elkiss.api.timedo.model.TimeEntry timeEntry = new com.an9elkiss.api.timedo.model.TimeEntry();
             	timeEntry.setDate(new Date());
             	timeEntry.setStatus(1);
