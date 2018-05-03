@@ -5,13 +5,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.filter.HttpPutFormContentFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "com.an9elkiss.api.timedo.api" })
+@ComponentScan(basePackages = { "com.an9elkiss.api.timedo.api, com.an9elkiss.api.timedo.service" })
 @MapperScan("com.an9elkiss.api.timedo.dao")
 public class Swagger2SpringBoot implements CommandLineRunner {
 
@@ -35,4 +42,36 @@ public class Swagger2SpringBoot implements CommandLineRunner {
         }
 
     }
+    
+
+	/**
+	 * 实现封装PUT请求的From体至Command
+	 * @return
+	 */
+    @Bean
+    public FilterRegistrationBean httpPutFormContentFilter() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        HttpPutFormContentFilter httpPutFormContentFilter = new HttpPutFormContentFilter();
+        registration.setFilter(httpPutFormContentFilter);
+        registration.addUrlPatterns("/*");
+        return registration;
+    }
+    
+    /**
+     * 允许跨域请求。swagger可能发起跨域请求
+     * @return
+     */
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedHeaders("*")
+                        .allowedMethods("*")
+                        .allowedOrigins("*");
+            }
+        };
+    }
+
 }

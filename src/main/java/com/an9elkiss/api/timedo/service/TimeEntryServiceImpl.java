@@ -7,9 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.an9elkiss.api.timedo.command.TimeEntryCmd;
+import com.an9elkiss.api.timedo.constant.ApiStatus;
 import com.an9elkiss.api.timedo.dao.TimeEntryDao;
+import com.an9elkiss.api.timedo.exception.TimedoBizException;
 import com.an9elkiss.api.timedo.model.TimeEntry;
+import com.an9elkiss.commons.auth.AppContext;
 import com.an9elkiss.commons.command.ApiResponseCmd;
+import com.an9elkiss.commons.util.JsonUtils;
 
 @Service
 public class TimeEntryServiceImpl implements TimeEntryService {
@@ -27,14 +31,27 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 		try {
 			BeanUtils.copyProperties(timeEntry, timeEntryCmd);
 		} catch (Exception e) {
+			throw new TimedoBizException("TimeEntryCmd 转 TimeEntry 出错！", e);
+		}
+		timeEntry.setStatus(ApiStatus.NEW.getCode());
+		timeEntry.setCreateBy(AppContext.getPrincipal().getName());
+		timeEntry.setUpdateBy(AppContext.getPrincipal().getName());
 
-			// TODO Auto-generated catch block
-					e.printStackTrace();
+		int i = timeEntryDao.save(timeEntry);
+		if (i != 1) {
+			throw new TimedoBizException("新建 TimeEntry 失败！" + JsonUtils.toString(timeEntry));
 		}
 
-		timeEntryDao.save(timeEntry);
+		return ApiResponseCmd.success();
+	}
 
-		return null;
+	@Override
+	public ApiResponseCmd<Object> deleteTimeEntry(Integer id) {
+		// TODO 入参校验目前由swagger api来控制
+
+		timeEntryDao.delete(id);
+
+		return ApiResponseCmd.success();
 	}
 
 }

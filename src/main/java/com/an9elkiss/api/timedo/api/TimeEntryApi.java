@@ -5,14 +5,19 @@
  */
 package com.an9elkiss.api.timedo.api;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.threeten.bp.OffsetDateTime;
 
 import com.an9elkiss.api.timedo.command.TimeEntryCmd;
+import com.an9elkiss.commons.command.ApiResponseCmd;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,20 +32,18 @@ public interface TimeEntryApi {
     @ApiOperation(value = "Add a new time entry record to record what you have done", nickname = "addTimeEntry", notes = "", tags={ "time-entry", })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
-    @RequestMapping(value = "/time-entry",
-        produces = { "application/json" }, 
-        consumes = { "application/x-www-form-urlencoded" },
-        method = RequestMethod.POST)
-    ResponseEntity<Void> addTimeEntry(@ApiParam(value = "Date of the time entry", required=true) @RequestPart(value="date", required=true)  OffsetDateTime date,@ApiParam(value = "Type of time entry", required=true) @RequestPart(value="type", required=true)  String type,@ApiParam(value = "Duration of time entry", required=true) @RequestPart(value="duration", required=true)  Long duration,@ApiParam(value = "Comment of time entry") @RequestPart(value="comment", required=false)  String comment);
+	ResponseEntity<ApiResponseCmd> addTimeEntry(
+			@ApiParam(value = "Date of the time entry", required = true) @RequestParam(value = "date", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date,
+			@ApiParam(value = "Type of time entry", required = true) @RequestParam(value = "typeId", required = true) Integer typeId,
+			@ApiParam(value = "Duration of time entry", required = true) @RequestParam(value = "duration", required = true) Integer duration,
+			@ApiParam(value = "Comment of time entry") @RequestParam(value = "comment", required = false) String comment);
 
 
     @ApiOperation(value = "Deletes a time entry", nickname = "deleteTimeEntry", notes = "", tags={ "time-entry", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied") })
-    @RequestMapping(value = "/time-entry/{id}",
-        produces = { "application/json" }, 
-        method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteTimeEntry(@ApiParam(value = "Time entry id to delete",required=true) @PathVariable("id") Long id);
+	ResponseEntity<ApiResponseCmd> deleteTimeEntry(
+			@ApiParam(value = "Time entry id to delete", required = true) @PathVariable("id") Integer id);
 
 
 	@ApiOperation(value = "Finds time entry by id", nickname = "findTimeEntryById", notes = "Finds time entry by id", response = TimeEntryCmd.class, tags = {

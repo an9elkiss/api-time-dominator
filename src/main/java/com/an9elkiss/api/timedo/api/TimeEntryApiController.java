@@ -8,15 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.threeten.bp.OffsetDateTime;
 
 import com.an9elkiss.api.timedo.command.TimeEntryCmd;
 import com.an9elkiss.api.timedo.dao.TimeEntryDao;
+import com.an9elkiss.api.timedo.service.TimeEntryService;
+import com.an9elkiss.commons.command.ApiResponseCmd;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
@@ -34,6 +40,9 @@ public class TimeEntryApiController implements TimeEntryApi {
 	@Autowired
 	private TimeEntryDao timeEntryDao;
 
+	@Autowired
+	private TimeEntryService timeEntryService;
+
     @org.springframework.beans.factory.annotation.Autowired
     public TimeEntryApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
@@ -41,15 +50,33 @@ public class TimeEntryApiController implements TimeEntryApi {
     }
 
     @Override
-	public ResponseEntity<Void> addTimeEntry(@ApiParam(value = "Date of the time entry", required=true) @RequestPart(value="date", required=true)  OffsetDateTime date,@ApiParam(value = "Type of time entry", required=true) @RequestPart(value="type", required=true)  String type,@ApiParam(value = "Duration of time entry", required=true) @RequestPart(value="duration", required=true)  Long duration,@ApiParam(value = "Comment of time entry") @RequestPart(value="comment", required=false)  String comment) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+	@RequestMapping(value = "/time-entry", produces = { "application/json" }, consumes = {
+			"application/x-www-form-urlencoded" }, method = RequestMethod.POST)
+	public ResponseEntity<ApiResponseCmd> addTimeEntry(
+			@ApiParam(value = "Date of the time entry", required = true) @RequestParam(value = "date", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date,
+			@ApiParam(value = "Type of time entry", required = true) @RequestParam(value = "typeId", required = true) Integer typeId,
+			@ApiParam(value = "Duration of time entry", required = true) @RequestParam(value = "duration", required = true) Integer duration,
+			@ApiParam(value = "Comment of time entry") @RequestParam(value = "comment", required = false) String comment) {
+
+    	TimeEntryCmd timeEntryCmd = new TimeEntryCmd();
+		timeEntryCmd.setComment(comment);
+		timeEntryCmd.setDuration(duration);
+		timeEntryCmd.setTypeId(typeId);
+		timeEntryCmd.setDate(date);
+
+		ApiResponseCmd cmd = timeEntryService.createTimeEntry(timeEntryCmd);
+    	
+		return ResponseEntity.ok(cmd);
     }
 
     @Override
-	public ResponseEntity<Void> deleteTimeEntry(@ApiParam(value = "Time entry id to delete",required=true) @PathVariable("id") Long id) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+	@RequestMapping(value = "/time-entry/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
+	public ResponseEntity<ApiResponseCmd> deleteTimeEntry(
+			@ApiParam(value = "Time entry id to delete", required = true) @PathVariable("id") Integer id) {
+
+		ApiResponseCmd cmd = timeEntryService.deleteTimeEntry(id);
+
+		return ResponseEntity.ok(cmd);
     }
 
 	private Logger logger = LoggerFactory.getLogger(TimeEntryApiController.class);

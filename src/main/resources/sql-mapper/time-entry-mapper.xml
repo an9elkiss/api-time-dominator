@@ -7,9 +7,9 @@
 
 	<insert id="save" parameterType="TimeEntry" useGeneratedKeys="true"
 		keyProperty="id">
-		insert into t_time_entry
+		INSERT INTO t_time_entry
 		(date, type_id, comment, duration, status, create_by, update_by)
-		values
+		VALUES
 		(#{date}, #{typeId}, #{comment}, #{duration}, #{status}, #{createBy}, #{createBy});
 	</insert>
 	  
@@ -22,5 +22,10 @@
 		, update_by=#{updateBy}
 		where id=#{id}
 	</update>
+	
+	<delete id="delete" parameterType="Integer">
+		DELETE FROM t_time_entry
+		WHERE id=#{id}
+	</delete>
 	
 </mapper>

@@ -7,4 +7,6 @@ public interface TimeEntryService {
 
 	ApiResponseCmd<Object> createTimeEntry(TimeEntryCmd timeEntryCmd);
 
+	ApiResponseCmd<Object> deleteTimeEntry(Integer id);
+
 }
