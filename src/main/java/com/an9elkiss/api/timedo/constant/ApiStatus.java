@@ -11,7 +11,9 @@ public enum ApiStatus implements Status {
 	DELETED(21, "已删除"),
 
 	// --Http Response----------------------------
-	SUCCESS(200, "操作成功");
+	SUCCESS(200, "操作成功"),
+
+	NOT_FOUND(401, "未找到数据");
 	
 	private Integer code;
 	private String message;

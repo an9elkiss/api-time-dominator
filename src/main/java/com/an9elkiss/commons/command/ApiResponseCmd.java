@@ -28,6 +28,13 @@ public class ApiResponseCmd<T> implements Serializable{
 		return apiResponseCmd;
 	}
 
+	public static <D> ApiResponseCmd<D> success(D t) {
+		ApiResponseCmd<D> apiResponseCmd = new ApiResponseCmd<D>();
+		apiResponseCmd.setStatus(ApiStatus.SUCCESS);
+		apiResponseCmd.setData(t);
+		return apiResponseCmd;
+	}
+
 	public void setStatus(Status status) {
 		this.code = status.getCode();
 		this.message = status.getMessage();

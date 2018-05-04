@@ -9,4 +9,8 @@ public interface TimeEntryService {
 
 	ApiResponseCmd<Object> deleteTimeEntry(Integer id);
 
+	ApiResponseCmd<TimeEntryCmd> findById(Integer id);
+
+	ApiResponseCmd<TimeEntryCmd> updateTimeEntry(TimeEntryCmd timeEntryCmd);
+
 }

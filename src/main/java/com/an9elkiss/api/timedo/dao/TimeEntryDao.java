@@ -2,6 +2,7 @@ package com.an9elkiss.api.timedo.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.an9elkiss.api.timedo.command.TimeEntryCmd;
 import com.an9elkiss.api.timedo.model.TimeEntry;
 
 @Mapper
@@ -12,5 +13,7 @@ public interface TimeEntryDao {
 	int update(TimeEntry timeEntry);
 
 	int delete(Integer id);
+
+	TimeEntryCmd findById(Integer id);
 
 }

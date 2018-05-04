@@ -5,6 +5,16 @@
 
 <mapper namespace="com.an9elkiss.api.timedo.dao.TimeEntryDao">
 
+
+	<resultMap id = "timeEntryCmd" type = "TimeEntryCmd">
+	   <result property = "id" column = "id"/>
+	   <result property = "date" column = "date"/>
+	   <result property = "duration" column = "duration"/>
+	   <result property = "typeId" column = "type_id"/>
+	   <result property = "comment" column = "comment"/>
+	</resultMap>
+
+
 	<insert id="save" parameterType="TimeEntry" useGeneratedKeys="true"
 		keyProperty="id">
 		INSERT INTO t_time_entry
@@ -14,7 +24,7 @@
 	</insert>
 	  
 	<update id="update" parameterType="TimeEntry">
-		UPDATE t_img 
+		UPDATE t_time_entry 
 		SET date=#{date}
 		, type_id=#{typeId}
 		, comment=#{comment}
@@ -27,5 +37,11 @@
 		DELETE FROM t_time_entry
 		WHERE id=#{id}
 	</delete>
+	
+	<select id="findById"  resultMap = "timeEntryCmd" >
+		SELECT *
+		FROM t_time_entry 
+		WHERE id = #{id}
+	</select>
 	
 </mapper>

@@ -10,11 +10,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.threeten.bp.OffsetDateTime;
 
 import com.an9elkiss.api.timedo.command.TimeEntryCmd;
 import com.an9elkiss.commons.command.ApiResponseCmd;
@@ -51,21 +47,18 @@ public interface TimeEntryApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = TimeEntryCmd.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied") })
-    @RequestMapping(value = "/time-entry/{id}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-	ResponseEntity<TimeEntryCmd> findTimeEntryById(
-			@ApiParam(value = "ID of time entry that needs to be fetched", required = true) @PathVariable("id") Long id);
+	ResponseEntity<ApiResponseCmd<TimeEntryCmd>> findTimeEntryById(
+			@ApiParam(value = "ID of time entry that needs to be fetched", required = true) @PathVariable("id") Integer id);
 
 
     @ApiOperation(value = "Update an existing time entry", nickname = "updateTimeEntry", notes = "", tags={ "time-entry", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 405, message = "Validation exception") })
-    @RequestMapping(value = "/time-entry/{id}",
-        produces = { "application/json" }, 
-        consumes = { "application/x-www-form-urlencoded" },
-        method = RequestMethod.POST)
-    ResponseEntity<Void> updateTimeEntry(@ApiParam(value = "ID of time entry that needs to be updated",required=true) @PathVariable("id") Long id,@ApiParam(value = "Updated date of the time entry", required=true) @RequestPart(value="date", required=true)  OffsetDateTime date,@ApiParam(value = "Updated type of time entry", required=true) @RequestPart(value="type", required=true)  String type,@ApiParam(value = "Updated duration of time entry", required=true) @RequestPart(value="duration", required=true)  Long duration,@ApiParam(value = "Updated comment of time entry") @RequestPart(value="comment", required=false)  String comment);
-
+    ResponseEntity<ApiResponseCmd<TimeEntryCmd>> updateTimeEntry(
+			@ApiParam(value = "ID of time entry that needs to be updated", required = true) @PathVariable("id") Integer id,
+			@ApiParam(value = "Updated date of the time entry", required = true) @RequestParam(value = "date", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date,
+			@ApiParam(value = "Updated type of time entry", required = true) @RequestParam(value = "typeId", required = true) Integer typeId,
+			@ApiParam(value = "Updated duration of time entry", required = true) @RequestParam(value = "duration", required = true) Integer duration,
+			@ApiParam(value = "Updated comment of time entry") @RequestParam(value = "comment", required = false) String comment);
 }

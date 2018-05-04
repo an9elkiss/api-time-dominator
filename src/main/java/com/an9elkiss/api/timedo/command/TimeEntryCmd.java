@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class TimeEntryCmd   {
 
+	private Integer id;
 	private Date date;
 	private Integer typeId;
 	private String comment;
@@ -40,6 +41,14 @@ public class TimeEntryCmd   {
 
 	public void setDuration(Integer duration) {
 		this.duration = duration;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }
