@@ -44,4 +44,10 @@
 		WHERE id = #{id}
 	</select>
 	
+	<select id="sumDurationOfDay" resultType="java.lang.Integer" >
+		SELECT SUM(duration)
+		FROM t_time_entry 
+		WHERE date = #{date}
+	</select>
+	
 </mapper>
