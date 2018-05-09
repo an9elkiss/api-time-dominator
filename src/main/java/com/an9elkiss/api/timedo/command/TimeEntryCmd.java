@@ -2,14 +2,25 @@ package com.an9elkiss.api.timedo.command;
 
 import java.util.Date;
 
+import com.an9elkiss.api.timedo.constant.TimeEntryType;
+
 
 public class TimeEntryCmd   {
 
 	private Integer id;
 	private Date date;
 	private Integer typeId;
+	private String typeName;
 	private String comment;
 	private Integer duration;
+
+	public TimeEntryCmd() {
+	}
+
+	public TimeEntryCmd(TimeEntryType type) {
+		this.typeId = type.getTypeId();
+		this.typeName = type.getTypeName();
+	}
 
 	public Date getDate() {
 		return date;
@@ -49,6 +60,14 @@ public class TimeEntryCmd   {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
 }

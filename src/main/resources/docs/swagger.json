@@ -203,10 +203,36 @@
               }
             }
           }
-        },
-        "security" : [ {
-          "api_key" : [ ]
-        } ]
+        }
+      }
+    },
+    "/time-entries/daily" : {
+      "get" : {
+        "tags" : [ "time-entry" ],
+        "summary" : "Find daily time entries",
+        "description" : "Find all types of daily time entries, including empty entries",
+        "operationId" : "findDailyTimeEntries",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "date",
+          "in" : "query",
+          "description" : "Query param",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "integer",
+                "format" : "int32"
+              }
+            }
+          }
+        }
       }
     },
     "/week-days" : {

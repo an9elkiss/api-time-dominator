@@ -33,6 +33,16 @@ public class TimeEntriesApiController implements TimeEntriesApi {
 	private TimeEntryService timeEntryService;
 
     @Override
+	@RequestMapping(value = "/time-entries/daily", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<ApiResponseCmd<TimeEntriesCmd>> findDailyTimeEntries(
+			@ApiParam(value = "Query param") @Valid @RequestParam(value = "date", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date) {
+
+		ApiResponseCmd<TimeEntriesCmd> cmd = timeEntryService.findDailyTimeEntries(date);
+
+		return ResponseEntity.ok(cmd);
+	}
+
+	@Override
 	@RequestMapping(value = "/time-entries", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<ApiResponseCmd<TimeEntriesCmd>> findTimeEntries(
 			@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateFrom", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dateFrom,

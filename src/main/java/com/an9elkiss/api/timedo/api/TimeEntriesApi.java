@@ -38,4 +38,11 @@ public interface TimeEntriesApi {
 			@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateTo", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dateTo,
 			@ApiParam(value = "Query param") @Valid @RequestParam(value = "typeId", required = false) Integer typeId);
 
+	@ApiOperation(value = "Find daily time entries", nickname = "findDailyTimeEntries", notes = "Find daily time entries", response = Integer.class, responseContainer = "Map", authorizations = {
+			@Authorization(value = "api_key") }, tags = { "time-entry", })
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
+	ResponseEntity<ApiResponseCmd<TimeEntriesCmd>> findDailyTimeEntries(
+			@ApiParam(value = "Query param") @Valid @RequestParam(value = "date", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date);
+
 }

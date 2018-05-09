@@ -60,6 +60,9 @@
 		<if test="dateTo!=null">
 			and date <![CDATA[<=]]> #{dateTo}
 		</if>
+		<if test="date!=null">
+			and date = #{date}
+		</if>
 		<if test="typeId!=null">
 			and type_id = #{typeId}
 		</if>

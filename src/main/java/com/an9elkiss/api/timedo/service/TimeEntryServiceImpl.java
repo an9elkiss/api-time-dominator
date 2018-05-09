@@ -1,7 +1,9 @@
 package com.an9elkiss.api.timedo.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +21,14 @@ import com.an9elkiss.api.timedo.command.TimeEntriesCmd;
 import com.an9elkiss.api.timedo.command.TimeEntryCmd;
 import com.an9elkiss.api.timedo.command.WeekDaysCmd;
 import com.an9elkiss.api.timedo.constant.ApiStatus;
+import com.an9elkiss.api.timedo.constant.TimeEntryType;
 import com.an9elkiss.api.timedo.dao.TimeEntryDao;
 import com.an9elkiss.api.timedo.exception.TimedoBizException;
 import com.an9elkiss.api.timedo.model.TimeEntry;
 import com.an9elkiss.commons.auth.AppContext;
 import com.an9elkiss.commons.command.ApiResponseCmd;
 import com.an9elkiss.commons.util.JsonUtils;
+import com.an9elkiss.commons.util.MapUtils;
 
 @Service
 public class TimeEntryServiceImpl implements TimeEntryService {
@@ -148,5 +152,38 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 
 		return ApiResponseCmd.success(timeEntriesCmd);
 	}
+
+	@Override
+	public ApiResponseCmd<TimeEntriesCmd> findDailyTimeEntries(Date date) {
+		Map<String, Object> searchParams = new HashMap<String, Object>();
+		MapUtils.addIfNotBlank(searchParams, "date", date);
+
+		List<TimeEntryCmd> timeEntries = timeEntryDao.findTimeEntries(searchParams);
+
+		List<TimeEntryCmd> resultEntries = new ArrayList<TimeEntryCmd>();
+		for (TimeEntryType type : TimeEntryType.values()) {
+			TimeEntryCmd timeEntryCmd = new TimeEntryCmd(type);
+			timeEntryCmd.setDate(date);
+			copyEntryRecord(timeEntryCmd, timeEntries);
+			resultEntries.add(timeEntryCmd);
+		}
+
+		TimeEntriesCmd timeEntriesCmd = new TimeEntriesCmd();
+		timeEntriesCmd.setTimeEntries(resultEntries);
+
+		return ApiResponseCmd.success(timeEntriesCmd);
+	}
+
+	private void copyEntryRecord(TimeEntryCmd emptyCmd, List<TimeEntryCmd> recordEntries) {
+		if (recordEntries == null) {
+			return;
+		}
+		for (TimeEntryCmd recordEntry : recordEntries) {
+			if (emptyCmd.getTypeId() == recordEntry.getTypeId()) {
+				org.springframework.beans.BeanUtils.copyProperties(recordEntry, emptyCmd, "typeName");
+			}
+		}
+	}
+
 
 }
