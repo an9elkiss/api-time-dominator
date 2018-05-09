@@ -1,6 +1,8 @@
 package com.an9elkiss.api.timedo.dao;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,5 +21,7 @@ public interface TimeEntryDao {
 	TimeEntryCmd findById(Integer id);
 
 	Integer sumDurationOfDay(Date date);
+
+	List<TimeEntryCmd> findTimeEntries(Map<String, ?> searchParams);
 
 }

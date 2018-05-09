@@ -3,6 +3,8 @@ package com.an9elkiss.api.timedo.service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.an9elkiss.api.timedo.command.DailyStatusCmd;
+import com.an9elkiss.api.timedo.command.TimeEntriesCmd;
 import com.an9elkiss.api.timedo.command.TimeEntryCmd;
 import com.an9elkiss.api.timedo.command.WeekDaysCmd;
 import com.an9elkiss.api.timedo.constant.ApiStatus;
@@ -134,6 +137,16 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 		} else {
 			return new DailyStatusCmd(date.getDate(), DailyStatusCmd.TODAY);
 		}
+	}
+
+	@Override
+	public ApiResponseCmd<TimeEntriesCmd> findTimeEntries(Map<String, ?> searchParams) {
+		List<TimeEntryCmd> timeEntries = timeEntryDao.findTimeEntries(searchParams);
+
+		TimeEntriesCmd timeEntriesCmd = new TimeEntriesCmd();
+		timeEntriesCmd.setTimeEntries(timeEntries);
+
+		return ApiResponseCmd.success(timeEntriesCmd);
 	}
 
 }

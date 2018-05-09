@@ -5,23 +5,24 @@
  */
 package com.an9elkiss.api.timedo.api;
 
+import java.util.Date;
 import java.util.Map;
-import org.threeten.bp.OffsetDateTime;
-import io.swagger.annotations.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.an9elkiss.api.timedo.command.TimeEntriesCmd;
+import com.an9elkiss.commons.command.ApiResponseCmd;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-28T09:59:07.066Z")
 
 @Api(value = "time-entries", description = "the time-entries API")
@@ -32,9 +33,9 @@ public interface TimeEntriesApi {
     }, tags={ "time-entry", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
-    @RequestMapping(value = "/time-entries",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<Map<String, Integer>> findTimeEntries(@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateFrom", required = false) OffsetDateTime dateFrom,@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateTo", required = false) OffsetDateTime dateTo,@ApiParam(value = "Query param") @Valid @RequestParam(value = "type", required = false) String type);
+	ResponseEntity<ApiResponseCmd<TimeEntriesCmd>> findTimeEntries(
+			@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateFrom", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dateFrom,
+			@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateTo", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dateTo,
+			@ApiParam(value = "Query param") @Valid @RequestParam(value = "typeId", required = false) Integer typeId);
 
 }

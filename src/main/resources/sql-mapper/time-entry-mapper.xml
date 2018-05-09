@@ -50,4 +50,19 @@
 		WHERE date = #{date}
 	</select>
 	
+	<select id="findTimeEntries" resultMap = "timeEntryCmd">
+		SELECT *
+		FROM t_time_entry
+		WHERE 1 = 1
+		<if test="dateFrom!=null">
+			and date <![CDATA[>=]]> #{dateFrom}
+		</if>
+		<if test="dateTo!=null">
+			and date <![CDATA[<=]]> #{dateTo}
+		</if>
+		<if test="typeId!=null">
+			and type_id = #{typeId}
+		</if>
+	</select>
+	
 </mapper>
