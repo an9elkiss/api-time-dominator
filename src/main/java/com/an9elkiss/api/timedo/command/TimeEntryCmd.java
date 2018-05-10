@@ -3,14 +3,17 @@ package com.an9elkiss.api.timedo.command;
 import java.util.Date;
 
 import com.an9elkiss.api.timedo.constant.TimeEntryType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 public class TimeEntryCmd   {
 
 	private Integer id;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date date;
 	private Integer typeId;
 	private String typeName;
+	private String iconName;
 	private String comment;
 	private Integer duration;
 
@@ -20,6 +23,7 @@ public class TimeEntryCmd   {
 	public TimeEntryCmd(TimeEntryType type) {
 		this.typeId = type.getTypeId();
 		this.typeName = type.getTypeName();
+		this.iconName = type.getIconName();
 	}
 
 	public Date getDate() {
@@ -68,6 +72,14 @@ public class TimeEntryCmd   {
 
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+
+	public String getIconName() {
+		return iconName;
+	}
+
+	public void setIconName(String iconName) {
+		this.iconName = iconName;
 	}
 
 }

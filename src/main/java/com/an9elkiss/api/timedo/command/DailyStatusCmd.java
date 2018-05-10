@@ -1,6 +1,10 @@
 package com.an9elkiss.api.timedo.command;
 
+import java.util.Date;
+import java.util.TimeZone;
+
 import com.an9elkiss.commons.util.JsonUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class DailyStatusCmd   {
 
@@ -9,19 +13,14 @@ public class DailyStatusCmd   {
 	public static final Integer FUTURE = 3;
 	public static final Integer UNDO = 4;
 
-	private Integer date;
+	private Integer dateNum;
 	private Integer type;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	private Date date;
 
-	public DailyStatusCmd(Integer date, Integer type) {
-		this.date = date;
+	public DailyStatusCmd(Date date, Integer type) {
+		this.dateNum = date.getDate();
 		this.type = type;
-	}
-
-	public Integer getDate() {
-		return date;
-	}
-
-	public void setDate(Integer date) {
 		this.date = date;
 	}
 
@@ -33,9 +32,31 @@ public class DailyStatusCmd   {
 		this.type = type;
 	}
 
+
+	public Integer getDateNum() {
+		return dateNum;
+	}
+
+	public void setDateNum(Integer dateNum) {
+		this.dateNum = dateNum;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+
 	@Override
 	public String toString() {
 		return JsonUtils.toString(this);
+	}
+
+	public static void main(String[] args) {
+		System.out.println(TimeZone.getDefault());
 	}
 
 }

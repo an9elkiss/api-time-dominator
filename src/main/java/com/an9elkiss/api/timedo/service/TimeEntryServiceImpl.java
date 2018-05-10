@@ -132,14 +132,14 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 		if (date.before(today)) {
 			Integer duration = timeEntryDao.sumDurationOfDay(date);
 			if (duration != null && duration >= MIN_DURATION_EVERY_DAY) {
-				return new DailyStatusCmd(date.getDate(), DailyStatusCmd.DONE);
+				return new DailyStatusCmd(date, DailyStatusCmd.DONE);
 			}
-			return new DailyStatusCmd(date.getDate(), DailyStatusCmd.UNDO);
+			return new DailyStatusCmd(date, DailyStatusCmd.UNDO);
 
 		} else if (date.after(today)) {
-			return new DailyStatusCmd(date.getDate(), DailyStatusCmd.FUTURE);
+			return new DailyStatusCmd(date, DailyStatusCmd.FUTURE);
 		} else {
-			return new DailyStatusCmd(date.getDate(), DailyStatusCmd.TODAY);
+			return new DailyStatusCmd(date, DailyStatusCmd.TODAY);
 		}
 	}
 
@@ -180,7 +180,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 		}
 		for (TimeEntryCmd recordEntry : recordEntries) {
 			if (emptyCmd.getTypeId() == recordEntry.getTypeId()) {
-				org.springframework.beans.BeanUtils.copyProperties(recordEntry, emptyCmd, "typeName");
+				org.springframework.beans.BeanUtils.copyProperties(recordEntry, emptyCmd, "typeName", "iconName");
 			}
 		}
 	}
