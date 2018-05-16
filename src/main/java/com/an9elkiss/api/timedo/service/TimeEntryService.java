@@ -10,6 +10,10 @@ import com.an9elkiss.commons.command.ApiResponseCmd;
 
 public interface TimeEntryService {
 
+	String QUERY_PARAM_DATE_FROM = "dateFrom";
+	String QUERY_PARAM_DATE_TO = "dateTo";
+	String QUERY_PARAM_TYPE_ID = "typeId";
+
 	ApiResponseCmd<Object> createTimeEntry(TimeEntryCmd timeEntryCmd);
 
 	ApiResponseCmd<Object> deleteTimeEntry(Integer id);
@@ -21,6 +25,8 @@ public interface TimeEntryService {
 	ApiResponseCmd<WeekDaysCmd> getWeekDays();
 
 	ApiResponseCmd<TimeEntriesCmd> findTimeEntries(Map<String, ?> searchParams);
+
+	ApiResponseCmd<TimeEntriesCmd> findTimeEntries(Map<String, ?> searchParams, boolean withEmptyEntry);
 
 	ApiResponseCmd<TimeEntriesCmd> findDailyTimeEntries(Date date);
 

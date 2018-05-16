@@ -191,6 +191,13 @@
           "description" : "Query param",
           "required" : false,
           "type" : "string"
+        }, {
+          "name" : "month",
+          "in" : "query",
+          "description" : "Query param",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
         } ],
         "responses" : {
           "200" : {

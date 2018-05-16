@@ -1,11 +1,13 @@
 package com.an9elkiss.api.timedo.api;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,18 +49,35 @@ public class TimeEntriesApiController implements TimeEntriesApi {
 	public ResponseEntity<ApiResponseCmd<TimeEntriesCmd>> findTimeEntries(
 			@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateFrom", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dateFrom,
 			@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateTo", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dateTo,
-			@ApiParam(value = "Query param") @Valid @RequestParam(value = "typeId", required = false) Integer typeId) {
+			@ApiParam(value = "Query param") @Valid @RequestParam(value = "typeId", required = false) Integer typeId,
+			@ApiParam(value = "Query param") @Valid @RequestParam(value = "month", required = false) Integer month) {
 
 		Map<String, Object> searchParams = new HashMap<String, Object>();
-		MapUtils.addIfNotBlank(searchParams, "dateFrom", dateFrom);
-		MapUtils.addIfNotBlank(searchParams, "dateTo", dateTo);
-		MapUtils.addIfNotBlank(searchParams, "typeId", typeId);
+		MapUtils.addIfNotBlank(searchParams, TimeEntryService.QUERY_PARAM_DATE_FROM, dateFrom);
+		MapUtils.addIfNotBlank(searchParams, TimeEntryService.QUERY_PARAM_DATE_TO, dateTo);
+		MapUtils.addIfNotBlank(searchParams, TimeEntryService.QUERY_PARAM_TYPE_ID, typeId);
+		if (month != null && dateFrom == null && dateTo == null) {
+			addMonth(month, searchParams);
+		}
 
 		// TODO 控制查询结果数量
 
-		ApiResponseCmd<TimeEntriesCmd> cmd = timeEntryService.findTimeEntries(searchParams);
+		final boolean WITH_EMPTY_ENTRY = true;
+		ApiResponseCmd<TimeEntriesCmd> cmd = timeEntryService.findTimeEntries(searchParams, WITH_EMPTY_ENTRY);
 
 		return ResponseEntity.ok(cmd);
     }
+
+	public void addMonth(Integer month, Map<String, Object> searchParams) {
+		if (month > 12 || month < 1) {
+			return;
+		}
+
+		Date year = DateUtils.truncate(new Date(), Calendar.YEAR);
+		Date dayBegin = DateUtils.addMonths(year, month - 1);
+		Date dayEnd = DateUtils.addDays(DateUtils.addMonths(year, month), -1);
+		MapUtils.addIfNotBlank(searchParams, TimeEntryService.QUERY_PARAM_DATE_FROM, dayBegin);
+		MapUtils.addIfNotBlank(searchParams, TimeEntryService.QUERY_PARAM_DATE_TO, dayEnd);
+	}
 
 }

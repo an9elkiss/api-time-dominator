@@ -11,6 +11,7 @@ public class TimeEntryCmd   {
 	private Integer id;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date date;
+	private Integer dateNum;
 	private Integer typeId;
 	private String typeName;
 	private String iconName;
@@ -80,6 +81,14 @@ public class TimeEntryCmd   {
 
 	public void setIconName(String iconName) {
 		this.iconName = iconName;
+	}
+
+	public Integer getDateNum() {
+		return dateNum;
+	}
+
+	public void setDateNum(Integer dateNum) {
+		this.dateNum = dateNum;
 	}
 
 }

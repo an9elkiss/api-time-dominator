@@ -8,10 +8,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +46,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 
 		TimeEntry timeEntry = new TimeEntry();
 		try {
-			BeanUtils.copyProperties(timeEntry, timeEntryCmd);
+			BeanUtils.copyProperties(timeEntryCmd, timeEntry);
 		} catch (Exception e) {
 			throw new TimedoBizException("TimeEntryCmd 转 TimeEntry 出错！", e);
 		}
@@ -92,7 +92,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 
 		TimeEntry timeEntry = new TimeEntry();
 		try {
-			BeanUtils.copyProperties(timeEntry, timeEntryCmd);
+			BeanUtils.copyProperties(timeEntryCmd, timeEntry);
 		} catch (Exception e) {
 			throw new TimedoBizException("TimeEntryCmd 转 TimeEntry 出错！", e);
 		}
@@ -145,12 +145,46 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 
 	@Override
 	public ApiResponseCmd<TimeEntriesCmd> findTimeEntries(Map<String, ?> searchParams) {
+		return findTimeEntries(searchParams, false);
+	}
+
+	@Override
+	public ApiResponseCmd<TimeEntriesCmd> findTimeEntries(Map<String, ?> searchParams, boolean withEmptyEntry) {
 		List<TimeEntryCmd> timeEntries = timeEntryDao.findTimeEntries(searchParams);
+		if (withEmptyEntry) {
+			timeEntries = addEmptyEntries(searchParams,
+					timeEntries == null ? new ArrayList<TimeEntryCmd>() : timeEntries);
+		}
 
 		TimeEntriesCmd timeEntriesCmd = new TimeEntriesCmd();
 		timeEntriesCmd.setTimeEntries(timeEntries);
 
 		return ApiResponseCmd.success(timeEntriesCmd);
+	}
+
+	private List<TimeEntryCmd> addEmptyEntries(Map<String, ?> searchParams, List<TimeEntryCmd> timeEntries) {
+		List<TimeEntryCmd> resultEntries = new ArrayList<TimeEntryCmd>();
+
+		Date dateFrom = (Date) searchParams.get(TimeEntryService.QUERY_PARAM_DATE_FROM);
+		Date dateTo = (Date) searchParams.get(TimeEntryService.QUERY_PARAM_DATE_TO);
+		while (!dateFrom.after(dateTo)) {
+			TimeEntryCmd timeEntryCmd = new TimeEntryCmd();
+			timeEntryCmd.setDate(dateFrom);
+			timeEntryCmd.setDateNum(dateFrom.getDate());
+			timeEntryCmd.setDuration(0);
+
+			for (TimeEntryCmd entry : timeEntries) {
+				if (entry.getDate().equals(dateFrom)) {
+					BeanUtils.copyProperties(entry, timeEntryCmd, "date", "dateNum");
+				}
+			}
+
+			resultEntries.add(timeEntryCmd);
+
+			dateFrom = DateUtils.addDays(dateFrom, 1);
+		}
+
+		return resultEntries;
 	}
 
 	@Override
@@ -180,7 +214,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 		}
 		for (TimeEntryCmd recordEntry : recordEntries) {
 			if (emptyCmd.getTypeId() == recordEntry.getTypeId()) {
-				org.springframework.beans.BeanUtils.copyProperties(recordEntry, emptyCmd, "typeName", "iconName");
+				BeanUtils.copyProperties(recordEntry, emptyCmd, "typeName", "iconName");
 			}
 		}
 	}

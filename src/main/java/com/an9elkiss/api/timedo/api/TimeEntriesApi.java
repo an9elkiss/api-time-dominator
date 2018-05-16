@@ -36,7 +36,8 @@ public interface TimeEntriesApi {
 	ResponseEntity<ApiResponseCmd<TimeEntriesCmd>> findTimeEntries(
 			@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateFrom", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dateFrom,
 			@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateTo", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dateTo,
-			@ApiParam(value = "Query param") @Valid @RequestParam(value = "typeId", required = false) Integer typeId);
+			@ApiParam(value = "Query param") @Valid @RequestParam(value = "typeId", required = false) Integer typeId,
+			@ApiParam(value = "Query param") @Valid @RequestParam(value = "month", required = false) Integer month);
 
 	@ApiOperation(value = "Find daily time entries", nickname = "findDailyTimeEntries", notes = "Find daily time entries", response = Integer.class, responseContainer = "Map", authorizations = {
 			@Authorization(value = "api_key") }, tags = { "time-entry", })
