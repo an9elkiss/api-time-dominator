@@ -1,7 +1,6 @@
 package com.an9elkiss.api.timedo.command;
 
 import java.util.Date;
-import java.util.TimeZone;
 
 import com.an9elkiss.commons.util.JsonUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -53,10 +52,6 @@ public class DailyStatusCmd   {
 	@Override
 	public String toString() {
 		return JsonUtils.toString(this);
-	}
-
-	public static void main(String[] args) {
-		System.out.println(TimeZone.getDefault());
 	}
 
 }

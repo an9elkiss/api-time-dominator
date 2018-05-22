@@ -103,6 +103,13 @@
 		    <version>1.9</version>
 		</dependency>
 		
+		<!-- a9 commons -->
+		<dependency>
+		    <groupId>an9elkiss.cn</groupId>
+		    <artifactId>a9-commons</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
+		
 		<!-- tools -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
