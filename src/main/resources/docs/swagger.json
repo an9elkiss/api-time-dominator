@@ -248,7 +248,13 @@
         "summary" : "Get daily status of the current week",
         "operationId" : "getWeekDays",
         "produces" : [ "application/json" ],
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "token",
+          "in" : "query",
+          "description" : "Query param",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
             "description" : "successful operation",

@@ -10,16 +10,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.an9elkiss.commons.auth.spring.AuthInterceptor;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "com.an9elkiss.api.timedo.api, com.an9elkiss.api.timedo.service" })
+@ComponentScan(basePackages = {
+		"com.an9elkiss.api.timedo.api, com.an9elkiss.api.timedo.service, "
+				+ "com.an9elkiss.commons.util.spring, com.an9elkiss.commons.auth.spring" })
 @MapperScan("com.an9elkiss.api.timedo.dao")
-public class Swagger2SpringBoot implements CommandLineRunner {
+public class TimeDominatorApiBoot extends WebMvcConfigurerAdapter implements CommandLineRunner {
 
     @Override
     public void run(String... arg0) throws Exception {
@@ -29,7 +34,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
     }
 
     public static void main(String[] args) throws Exception {
-        new SpringApplication(Swagger2SpringBoot.class).run(args);
+        new SpringApplication(TimeDominatorApiBoot.class).run(args);
     }
 
     class ExitException extends RuntimeException implements ExitCodeGenerator {
@@ -72,5 +77,16 @@ public class Swagger2SpringBoot implements CommandLineRunner {
             }
         };
     }
+
+	// 这样，bean才能被托管
+	@Bean
+	public AuthInterceptor authInterceptor() {
+		return new AuthInterceptor();
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(authInterceptor()).addPathPatterns("/**");
+	}
 
 }

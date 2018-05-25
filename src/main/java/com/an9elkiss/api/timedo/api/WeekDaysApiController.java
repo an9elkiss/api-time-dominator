@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.an9elkiss.api.timedo.command.WeekDaysCmd;
 import com.an9elkiss.api.timedo.service.TimeEntryService;
+import com.an9elkiss.commons.auth.spring.Access;
 import com.an9elkiss.commons.command.ApiResponseCmd;
 
 @Controller
@@ -23,6 +24,7 @@ public class WeekDaysApiController implements WeekDaysApi {
 
 
     @Override
+	@Access("API_WEEK_DAYS")
 	@RequestMapping(value = "/week-days", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<ApiResponseCmd<WeekDaysCmd>> getWeekDays() {
 
