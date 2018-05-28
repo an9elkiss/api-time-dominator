@@ -130,7 +130,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 	 */
 	private DailyStatusCmd findDailyStatus(Date date, Date today) {
 		if (date.before(today)) {
-			Integer duration = timeEntryDao.sumDurationOfDay(date);
+			Integer duration = timeEntryDao.sumDurationOfDay(date, AppContext.getPrincipal().getName());
 			if (duration != null && duration >= MIN_DURATION_EVERY_DAY) {
 				return new DailyStatusCmd(date, DailyStatusCmd.DONE);
 			}
@@ -191,6 +191,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 	public ApiResponseCmd<TimeEntriesCmd> findDailyTimeEntries(Date date) {
 		Map<String, Object> searchParams = new HashMap<String, Object>();
 		MapUtils.addIfNotBlank(searchParams, "date", date);
+		searchParams.put(TimeEntryService.QUERY_PARAM_CREATE_BY, AppContext.getPrincipal().getName());
 
 		List<TimeEntryCmd> timeEntries = timeEntryDao.findTimeEntries(searchParams);
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.an9elkiss.api.timedo.command.TimeEntriesCmd;
 import com.an9elkiss.api.timedo.service.TimeEntryService;
+import com.an9elkiss.commons.auth.AppContext;
 import com.an9elkiss.commons.auth.spring.Access;
 import com.an9elkiss.commons.command.ApiResponseCmd;
 import com.an9elkiss.commons.util.MapUtils;
@@ -62,6 +63,7 @@ public class TimeEntriesApiController implements TimeEntriesApi {
 		if (month != null && dateFrom == null && dateTo == null) {
 			addMonth(month, searchParams);
 		}
+		searchParams.put(TimeEntryService.QUERY_PARAM_CREATE_BY, AppContext.getPrincipal().getName());
 
 		// TODO 控制查询结果数量
 

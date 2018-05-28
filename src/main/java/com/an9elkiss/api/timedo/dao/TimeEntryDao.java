@@ -20,7 +20,7 @@ public interface TimeEntryDao {
 
 	TimeEntryCmd findById(Integer id);
 
-	Integer sumDurationOfDay(Date date);
+	Integer sumDurationOfDay(Date date, String createBy);
 
 	List<TimeEntryCmd> findTimeEntries(Map<String, ?> searchParams);
 

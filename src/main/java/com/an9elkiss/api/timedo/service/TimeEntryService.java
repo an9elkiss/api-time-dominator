@@ -13,6 +13,7 @@ public interface TimeEntryService {
 	String QUERY_PARAM_DATE_FROM = "dateFrom";
 	String QUERY_PARAM_DATE_TO = "dateTo";
 	String QUERY_PARAM_TYPE_ID = "typeId";
+	String QUERY_PARAM_CREATE_BY = "createBy";
 
 	ApiResponseCmd<Object> createTimeEntry(TimeEntryCmd timeEntryCmd);
 
