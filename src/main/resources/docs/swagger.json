@@ -33,6 +33,12 @@
         "consumes" : [ "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
+          "name" : "token",
+          "in" : "formData",
+          "description" : "Query param",
+          "required" : true,
+          "type" : "string"
+        }, {
           "name" : "date",
           "in" : "formData",
           "description" : "Date of the time entry",
@@ -81,6 +87,12 @@
           "required" : true,
           "type" : "integer",
           "format" : "int64"
+        }, {
+          "name" : "token",
+          "in" : "query",
+          "description" : "Query param",
+          "required" : true,
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
@@ -107,6 +119,12 @@
           "required" : true,
           "type" : "integer",
           "format" : "int32"
+        }, {
+          "name" : "token",
+          "in" : "formData",
+          "description" : "Query param",
+          "required" : true,
+          "type" : "string"
         }, {
           "name" : "date",
           "in" : "formData",
@@ -156,6 +174,12 @@
           "required" : true,
           "type" : "integer",
           "format" : "int64"
+        }, {
+          "name" : "token",
+          "in" : "query",
+          "description" : "Query param",
+          "required" : true,
+          "type" : "string"
         } ],
         "responses" : {
           "400" : {
@@ -172,6 +196,12 @@
         "operationId" : "findTimeEntries",
         "produces" : [ "application/json" ],
         "parameters" : [ {
+          "name" : "token",
+          "in" : "query",
+          "description" : "Query param",
+          "required" : true,
+          "type" : "string"
+        }, {
           "name" : "dateFrom",
           "in" : "query",
           "description" : "Query param",
@@ -221,6 +251,12 @@
         "operationId" : "findDailyTimeEntries",
         "produces" : [ "application/json" ],
         "parameters" : [ {
+          "name" : "token",
+          "in" : "query",
+          "description" : "Query param",
+          "required" : true,
+          "type" : "string"
+        }, {
           "name" : "date",
           "in" : "query",
           "description" : "Query param",

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.an9elkiss.api.timedo.command.TimeEntriesCmd;
 import com.an9elkiss.api.timedo.service.TimeEntryService;
+import com.an9elkiss.commons.auth.spring.Access;
 import com.an9elkiss.commons.command.ApiResponseCmd;
 import com.an9elkiss.commons.util.MapUtils;
 
@@ -35,6 +36,7 @@ public class TimeEntriesApiController implements TimeEntriesApi {
 	private TimeEntryService timeEntryService;
 
     @Override
+	@Access("API_TIME_ENTRIES_DAILY")
 	@RequestMapping(value = "/time-entries/daily", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<ApiResponseCmd<TimeEntriesCmd>> findDailyTimeEntries(
 			@ApiParam(value = "Query param") @Valid @RequestParam(value = "date", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date) {
@@ -45,6 +47,7 @@ public class TimeEntriesApiController implements TimeEntriesApi {
 	}
 
 	@Override
+	@Access("API_TIME_ENTRIES_GET")
 	@RequestMapping(value = "/time-entries", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<ApiResponseCmd<TimeEntriesCmd>> findTimeEntries(
 			@ApiParam(value = "Query param") @Valid @RequestParam(value = "dateFrom", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dateFrom,

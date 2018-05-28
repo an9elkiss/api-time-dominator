@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.an9elkiss.api.timedo.command.TimeEntryCmd;
 import com.an9elkiss.api.timedo.service.TimeEntryService;
+import com.an9elkiss.commons.auth.spring.Access;
 import com.an9elkiss.commons.command.ApiResponseCmd;
 
 import io.swagger.annotations.ApiParam;
@@ -29,6 +30,7 @@ public class TimeEntryApiController implements TimeEntryApi {
 	private TimeEntryService timeEntryService;
 
     @Override
+	@Access("API_TIME_ENTRY_NEW")
 	@RequestMapping(value = "/time-entry", produces = { "application/json" }, consumes = {
 			"application/x-www-form-urlencoded" }, method = RequestMethod.POST)
 	public ResponseEntity<ApiResponseCmd> addTimeEntry(
@@ -49,6 +51,7 @@ public class TimeEntryApiController implements TimeEntryApi {
     }
 
     @Override
+	@Access("API_TIME_ENTRY_DEL")
 	@RequestMapping(value = "/time-entry/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
 	public ResponseEntity<ApiResponseCmd> deleteTimeEntry(
 			@ApiParam(value = "Time entry id to delete", required = true) @PathVariable("id") Integer id) {
@@ -61,6 +64,7 @@ public class TimeEntryApiController implements TimeEntryApi {
 	private Logger logger = LoggerFactory.getLogger(TimeEntryApiController.class);
 
     @Override
+	@Access("API_TIME_ENTRY_GET")
 	@RequestMapping(value = "/time-entry/{id}", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<ApiResponseCmd<TimeEntryCmd>> findTimeEntryById(
 			@ApiParam(value = "ID of time entry that needs to be fetched", required = true) @PathVariable("id") Integer id) {
@@ -71,6 +75,7 @@ public class TimeEntryApiController implements TimeEntryApi {
     }
 
     @Override
+	@Access("API_TIME_ENTRY_UPDATE")
 	@RequestMapping(value = "/time-entry/{id}", produces = { "application/json" }, consumes = {
 			"application/x-www-form-urlencoded" }, method = RequestMethod.POST)
 	public ResponseEntity<ApiResponseCmd<TimeEntryCmd>> updateTimeEntry(
